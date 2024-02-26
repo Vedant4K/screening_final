@@ -9,10 +9,12 @@ const TestPage = () => {
   const [answers, setAnswers] = useState(Array(questions.length).fill(''));
   const currentQuestion = questions[currentQuestionIndex];
   const [startTime, setStartTime] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
 
-  const handleStart = () => {
+  const handleStart = (data) => {
     setStartTime(Date.now());
     setCurrentQuestionIndex(0);
+    setUserDetails(data);
   };
 
   const handlePrevious = () => {
@@ -35,8 +37,8 @@ const TestPage = () => {
 
   if (currentQuestionIndex === -1) {
     const finishTime = Date.now();
-    const timeTaken = ((finishTime - startTime) / 1000).toFixed(2); 
-    return <ResultPage answers={answers} timeTaken={timeTaken} />;
+    const timeTaken = ((finishTime - startTime) / 1000).toFixed(2);
+    return <ResultPage answers={answers} timeTaken={timeTaken} details={userDetails} />;
   }
 
   if (currentQuestionIndex === 0 && startTime === null) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { questions } from "../assets/questions";
 
-const ResultPage = ({ answers, timeTaken }) => {
+const ResultPage = ({ answers, timeTaken, details }) => {
   const minutes = Math.floor(timeTaken / 60);
   const seconds = Math.floor(timeTaken % 60);
 
@@ -19,11 +19,31 @@ const ResultPage = ({ answers, timeTaken }) => {
     displayTime = `${minutes} min ${seconds} sec`;
   }
 
+  const sendDataToSheet = async (score) => {
+    const data = {...details, Score: score}
+    try {
+      const response = await fetch(import.meta.env.VITE_GOOGLE_SHEETS_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if(response.ok){
+        alert("Your assessment has been recorded successfully.")
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
+  sendDataToSheet(score);
+
   return (
     <main className="max-w-screen mx-auto min-h-screen bg-[url('/src/assets/startbg.jpg')] bg-cover flex flex-col items-center justify-center p-4">
       <div className="max-w-screen-xl flex flex-col items-center justify-center">
         <div className="p-7 bg-opacity-80 bg-[#dfebe9] backdrop-blur-70 rounded-lg shadow-lg border border-opacity-75 border-gray-400">
-          {/* {answers.map(a => <p>{a}</p>)} */}
           <p className="text-2xl font-bold mb-4">Time taken: {displayTime}</p>
           <p className="text-2xl font-bold mb-4">Score: {score}</p>
           <table className="table-auto w-full border-collapse border border-gray-200 mt-4 `${questions.length > 10 ? 'overflow-auto' : ''}`">

@@ -7,7 +7,6 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<StartPage />} /> */}
           <Route path="/" element={<TestPage />} />
         </Routes>
       </BrowserRouter>
