@@ -19,27 +19,6 @@ const ResultPage = ({ answers, timeTaken, details }) => {
     displayTime = `${minutes} min ${seconds} sec`;
   }
 
-  const sendDataToSheet = async (score) => {
-    const data = {...details, Score: score}
-    try {
-      const response = await fetch(import.meta.env.VITE_GOOGLE_SHEETS_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-
-      if(response.ok){
-        alert("Your assessment has been recorded successfully.")
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  }
-
-  sendDataToSheet(score);
-
   return (
     <main className="max-w-screen mx-auto min-h-screen bg-[url('/src/assets/startbg.jpg')] bg-cover flex flex-col items-center justify-center p-4">
       <div className="max-w-screen-xl flex flex-col items-center justify-center">
